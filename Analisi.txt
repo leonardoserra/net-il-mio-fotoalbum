@@ -1,0 +1,6 @@
+Analisi Struttura Db e progetto.
+Entità: 
+  -Foto
+  -Categoria
+  -Utente (Creato in automatico con EF)
+  
