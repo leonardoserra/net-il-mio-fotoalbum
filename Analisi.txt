@@ -19,12 +19,6 @@ Entità:
     - Admin(Il fotografo lato server controller MVC)
     - User(Persone che vedono il sito lato client web API)
       
-     BONUS
-     Si possono creare piu Admin che avranno accesso solo alle loro foto
-     Si aggiunge un Identity nuova: 
-      -SuperAdmin(Puo nascondere qualsiasi foto presente nella piattaforma
-                    quindi agisce sulla Photo.Visibility)
-
 Controller MVC lato server:
     Solo Admin puo eseguirle
       FotoController {
@@ -48,4 +42,18 @@ Controller Web API lato client:
         - PostMessage(UserEmail, MessageText)-> serve un Form sempre nella Index o in view Contact
                                                 Crea un Message e lo mette in DB
       }
+
+BONUS
+     Si possono creare piu Admin che avranno accesso solo alle loro foto
+     Si aggiunge un Identity nuova: 
+      -SuperAdmin(Puo nascondere qualsiasi foto presente nella piattaforma
+                    quindi agisce sulla Photo.Visibility)
+
+
+     Controller MVC lato server:
+        Solo SuperAdmin puo eseguirle
+          FotoController {
+            - SetVisibilityOn(photoID)
+            - SetVisibilityOff(photoID)
+     }
 
