@@ -1,6 +1,32 @@
 Analisi Struttura Db e progetto.
 Entità: 
-  -Foto
-  -Categoria
-  -Utente (Creato in automatico con EF)
-  
+  -Foto:
+    -Title
+    -Description
+    -ImageFile
+    -Visibility
+    -Categories
+
+  -Categoria:
+    -Title
+    -Fotos
+
+  -Identity (Creato in automatico con EF e il suo register e login)
+    -Admin(Il fotografo lato server controller MVC)
+    -User(Persone che vedono il sito lato client web API)
+      
+     BONUS
+     Si possono creare piu Admin che avranno accesso solo alle loro foto
+     Si aggiunge un Identity nuova: 
+      -SuperAdmin(Puo nascondere qualsiasi foto presente nella piattaforma
+                    quindi agisce sulla Foto.Visibility)
+
+Controller MVC lato server:
+    Solo Admin puo eseguirle
+      FotoController (GetAllOrFilter per categoria o nome o id, Details, Create, Edit, Delete )
+      CategoryController (GetAll, Create, Delete)
+
+Controller Web API lato client:
+    Solo User puo fare la chiamata
+      FotoController
+
