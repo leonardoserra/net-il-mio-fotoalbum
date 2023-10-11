@@ -47,4 +47,4 @@ La webapp originariamente progettata per un fotografo che vuole mostrare le sue 
 
 
 
-![Tux, the Linux mascot](./diagramma_er.png)
+![diagram_er](./diagramma_er.png)
