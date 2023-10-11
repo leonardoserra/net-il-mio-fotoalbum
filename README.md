@@ -43,4 +43,8 @@ La webapp originariamente progettata per un fotografo che vuole mostrare le sue 
 > E’ importante quindi poter gestire un *livello di protezione adeguato*.
   
 > È stata inoltre introdotta la figura del ***superadmin***, che ha il potere di *nascondere qualsiasi foto presente nella piattaforma* per aumentare la sicurezza e la moderazione delle foto.
-> Il superadmin quindi potrà agire sulla visibilità pubblica delle foto e nasconderle a tutti gli utenti.  
+> Il superadmin quindi potrà agire sulla visibilità pubblica delle foto e nasconderle a tutti gli utenti.
+
+
+
+![Tux, the Linux mascot](./diagramma_er.png)
