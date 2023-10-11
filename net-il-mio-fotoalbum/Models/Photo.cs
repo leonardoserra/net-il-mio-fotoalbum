@@ -24,7 +24,10 @@ namespace net_il_mio_fotoalbum.Models
 
 
         [Column("image_file")]
-        public byte[]? ImageFile { get; set; } 
+        public byte[]? ImageFile { get; set; }
+
+        [Column("image_src")]
+        protected internal string ImageSrc => ImageFile is null ? "/img/default.png" : $"data:image/png;base64,{Convert.ToBase64String(ImageFile)}";
 
 
         [Column("visibility")]

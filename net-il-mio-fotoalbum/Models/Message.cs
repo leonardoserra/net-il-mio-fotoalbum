@@ -18,10 +18,8 @@ namespace net_il_mio_fotoalbum.Models
         public string Text { get; set; }
 
 
-        //relation n to 1
-      /*  [Column("user_id")]
-        public int UserId { get; set; }*/
-
+     
+        //referring to the id of the AspNetUsers table to create relationship 1 to many 
         [Column("user")]
         public IdentityUser User { get; set; }
 
