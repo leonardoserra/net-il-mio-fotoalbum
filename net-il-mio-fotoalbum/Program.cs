@@ -1,3 +1,5 @@
+using net_il_mio_fotoalbum.Database;
+
 namespace net_il_mio_fotoalbum
 {
     public class Program
@@ -7,6 +9,9 @@ namespace net_il_mio_fotoalbum
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Services.AddDbContext<PhotoAlbumsContext>();
+            builder.Services.AddScoped<PhotoAlbumsContext, PhotoAlbumsContext>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -14,7 +19,7 @@ namespace net_il_mio_fotoalbum
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Photo/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -28,7 +33,7 @@ namespace net_il_mio_fotoalbum
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Photo}/{action=Index}/{id?}");
 
             app.Run();
         }
