@@ -20,7 +20,8 @@ namespace net_il_mio_fotoalbum.Models
 
         [Column("description")]
         [StringLength(500, ErrorMessage = "Massimo 500 caratteri nella descrizione della foto.")]
-        public string Description { get; set; } = "";
+        [DefaultValue("Nessuna descrizione")]
+        public string Description { get; set; } = "Nessuna descrizione";
 
 
         [Column("image_file")]

@@ -2,36 +2,49 @@
     ViewData["Title"] = "Gestione Album Fotografico";
 }
 @model List<Photo>
+<div class="container">
+    <div class="row">
+            @if (Model != null || Model.Count > 0)
+            {
+                @foreach(Photo photo in Model)
+                {
+                    <div class="col-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="@photo.ImageSrc" alt="immagine @photo.Title">
+                            <div class="card-body">
+                                <h5 class="card-title">@photo.Title</h5>
+                            <p class="card-text">@photo.Description</p>
+                                <p class="card-text">
+                                    <ul class="list-unstyled">
+                                        @if (photo.Categories != null || photo.Categories.Count > 0)
+                                        {
+                                            <li>
+                                                Categorie:
+                                                <ul class="list-unstyled">
+                                                    @foreach (Category category in @photo.Categories)
+                                                    {
+                                                        <li>&nbsp;&nbsp;&nbsp;- @category.Title</li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>Nessuna Categoria per questa foto</li>
+                                        }
+                                    </ul>
+                                </p>
+                                <a href="@Url.Action("Index","Photo")" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                }
 
-@if (Model != null || Model.Count > 0)
-{
-    @foreach(Photo photo in Model)
-    {
-        <ul class="list-unstyled">
-            <li>Titolo: @photo.Title</li>
-            <li>Descrizione: @photo.Description</li>
-            <li>Visibilità: @photo.Visibility</li>
-            <li>Source dell immagine:@photo.ImageSrc</li>
-            @if (photo.Categories != null || photo.Categories.Count > 0)
-            {
-                <li>Categorie:
-                    <ul class="list-unstyled">
-                        @foreach (Category category in @photo.Categories)
-                        {
-                            <li>&nbsp;&nbsp;&nbsp;- @category.Title</li>
-                        }
-                    </ul>
-                </li>
-            }else
-            {
-                <li>Nessuna Categoria per questa foto</li>
             }
-        </ul>
-    }
+            else
+            {
+                <h2>Nessuna foto ricevuta...</h2>
 
-}
-else
-{
-    <h2>Nessuna foto ricevuta...</h2>
-
-}
+            }
+    </div>
+</div>
