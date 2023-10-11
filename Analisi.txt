@@ -1,32 +1,51 @@
 Analisi Struttura Db e progetto.
 Entità: 
-  -Foto:
-    -Title
-    -Description
-    -ImageFile
-    -Visibility
-    -Categories
+  - Photo:(many to many con Category)
+    - Title
+    - Description
+    - ImageFile
+    - Visibility
+    - Categories
 
-  -Categoria:
-    -Title
-    -Fotos
-
-  -Identity (Creato in automatico con EF e il suo register e login)
-    -Admin(Il fotografo lato server controller MVC)
-    -User(Persone che vedono il sito lato client web API)
+  - Category:(many to many con Photo)
+    - Title
+    - Photos
+  
+  - Message:
+    - UserEmail
+    - Text
+  
+  - Identity (Creato in automatico con EF e il suo register e login)
+    - Admin(Il fotografo lato server controller MVC)
+    - User(Persone che vedono il sito lato client web API)
       
      BONUS
      Si possono creare piu Admin che avranno accesso solo alle loro foto
      Si aggiunge un Identity nuova: 
       -SuperAdmin(Puo nascondere qualsiasi foto presente nella piattaforma
-                    quindi agisce sulla Foto.Visibility)
+                    quindi agisce sulla Photo.Visibility)
 
 Controller MVC lato server:
     Solo Admin puo eseguirle
-      FotoController (GetAllOrFilter per categoria o nome o id, Details, Create, Edit, Delete )
-      CategoryController (GetAll, Create, Delete)
+      FotoController {
+        - GetAllOrFilter() -> filtra per categoria o nome o id (Overload) serve View Index,
+        - Create() -> View Create con FORM (ricorda enctype),
+        - Details() -> View Details,
+        - Edit() -> View Edit con FORM (ricorda enctype),
+        - Delete() -> Form submit nel button(fai anche modale se riesci)
+      }
+
+      CategoryController {
+        - GetAll() -> View Index,
+        - Create() -> View Create con FORM,
+        - Delete() -> Form submit nel button(fai anche modale se riesci) 
+      }
 
 Controller Web API lato client:
     Solo User puo fare la chiamata
-      FotoController
+      FotoController{
+        - GetAllOrFilter(Title) -> View Index
+        - PostMessage(UserEmail, MessageText)-> serve un Form sempre nella Index o in view Contact
+                                                Crea un Message e lo mette in DB
+      }
 
