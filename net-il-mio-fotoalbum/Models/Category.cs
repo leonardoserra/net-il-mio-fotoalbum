@@ -18,7 +18,7 @@ namespace net_il_mio_fotoalbum.Models
 
         //relation n to n
         [Column("photos")]
-        List<Photo>? Photos { get; set; }
+        public List<Photo>? Photos { get; set; }
 
 
         //constructor 

@@ -34,7 +34,7 @@ namespace net_il_mio_fotoalbum.Models
 
         //relation n to n
         [Column("categories")]
-        List<Category>? Categories { get; set; }
+        public List<Category>? Categories { get; set; }
 
 
         //constructor 
