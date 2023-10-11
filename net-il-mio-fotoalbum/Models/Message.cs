@@ -21,7 +21,7 @@ namespace net_il_mio_fotoalbum.Models
      
         //referring to the id of the AspNetUsers table to create relationship 1 to many 
         [Column("user")]
-        public IdentityUser User { get; set; }
+        public IdentityUser? User { get; set; }
 
         //constructor 
         public Message() { }
