@@ -21,7 +21,7 @@ Una ***foto*** contiene almeno le seguenti informazioni :
 - visibile  
 - categorie
   
-Una foto può essere collegata a più categorie, e una categoria può essere collegata a più foto. (n to n)    
+Una foto può essere collegata a più ***categorie***, e una categoria può essere collegata a più foto. (n to n)    
 Prevedere quindi anche una semplice pagina di: (CRUD)     
 - lista
 - creazione  
@@ -32,11 +32,15 @@ Prevedere quindi anche una semplice pagina di: (CRUD)
 - Prevedere sempre nell’homepage pubblica un semplice **form di contatto** avente i campi email e messaggio.  
 - Il click sul tasto invia farà partire una richiesta a una nuova api che salverà sul database il messaggio inviato.  
   
-L'area di amministrazione va realizzata sfruttando **Razor + controller MVC**.  
-La pagina pubblica e l'invio dei messaggi di contatto devono essere gestiti tramite **javascript + webapi.**  
-***Bonus***  
-
+> L'area di amministrazione va realizzata sfruttando **Razor + controller MVC**.  
+> La pagina pubblica e l'invio dei messaggi di contatto devono essere gestiti tramite **javascript + webapi.**  
+  
+  
+***BONUS***  
 La webapp originariamente progettata per un fotografo che vuole mostrare le sue foto, è stata evoluta in una piattaforma multiutente che consente a diversi utenti, come altri fotografi, di utilizzarla per condividere le loro foto.  
-Per fare queste operazioni gli utenti avranno il ruolo di ***amministratori, ma soltanto delle loro foto***, non di quelle degli altri.  
-E’ importante quindi poter gestire un *livello di protezione adeguato*.  
-È stata inoltre introdotta la figura del ***superadmin***, che ha il potere di *nascondere qualsiasi foto presente nella piattaforma* per aumentare la sicurezza e la moderazione delle foto. Il superadmin quindi potrà agire sulla visibilità pubblica delle foto e nasconderle a tutti gli utenti.  
+  
+> Per fare queste operazioni gli utenti avranno il ruolo di ***amministratori, ma soltanto delle loro foto***, non di quelle degli altri.  
+> E’ importante quindi poter gestire un *livello di protezione adeguato*.
+  
+> È stata inoltre introdotta la figura del ***superadmin***, che ha il potere di *nascondere qualsiasi foto presente nella piattaforma* per aumentare la sicurezza e la moderazione delle foto.
+> Il superadmin quindi potrà agire sulla visibilità pubblica delle foto e nasconderle a tutti gli utenti.  
