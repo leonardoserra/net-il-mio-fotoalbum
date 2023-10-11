@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace net_il_mio_fotoalbum.Models
@@ -11,20 +13,20 @@ namespace net_il_mio_fotoalbum.Models
 
 
         [Column("text")]
-        [Required]
+        [Required(ErrorMessage = "Inserire il testo del messaggio")]
         [StringLength(2000, ErrorMessage = "Massimo 2000 caratteri per testo del messaggio")]
         public string Text { get; set; }
 
 
-        /*//relation n to 1
-        [Column("user_id")]
-        public int UserId { get; set; }
+        //relation n to 1
+      /*  [Column("user_id")]
+        public int UserId { get; set; }*/
 
         [Column("user")]
-        public User User { get; set; }*/
-
+        public IdentityUser User { get; set; }
 
         //constructor 
         public Message() { }
+
     }
 }

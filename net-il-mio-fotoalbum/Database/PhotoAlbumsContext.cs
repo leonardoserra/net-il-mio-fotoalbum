@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
 
 namespace net_il_mio_fotoalbum.Database
 {
@@ -22,5 +23,6 @@ namespace net_il_mio_fotoalbum.Database
         {
             optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=db-photo-albums;Integrated Security=True;TrustServerCertificate=True");
         }
+        
     }
 }

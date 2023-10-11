@@ -13,7 +13,7 @@ namespace net_il_mio_fotoalbum.Models
 
 
         [Column("title")]
-        [Required]
+        [Required(ErrorMessage ="Il titolo è obbligatorio")]
         [StringLength(100, ErrorMessage="Massimo 100 caratteri nel titolo della foto.")]
         public string Title { get; set; }
 
@@ -24,8 +24,7 @@ namespace net_il_mio_fotoalbum.Models
 
 
         [Column("image_file")]
-        [Required]
-        public byte[] ImageFile { get; set; } 
+        public byte[]? ImageFile { get; set; } 
 
 
         [Column("visibility")]
