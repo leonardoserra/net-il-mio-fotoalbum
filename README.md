@@ -47,4 +47,4 @@ La webapp originariamente progettata per un fotografo che vuole mostrare le sue 
 
 
 
-![diagram_er](./diagram_er.png)
+![diagram_er](./diagramma_er.png)
