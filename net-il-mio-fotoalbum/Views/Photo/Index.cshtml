@@ -2,56 +2,56 @@
     ViewData["Title"] = "Gestione Album Fotografico";
 }
 @model List<Photo>
-<div class="container-fluid" id="layout-main">
-    @* Create *@
-    <div class="row">
-        <div class="col-12 my-2">
-            <a href="@Url.Action("Index","Photo")" class="btn btn-success ">Aggiungi Foto</a>
-        </div>
-    </div>
-    <div class="row">
-            @if (Model != null || Model.Count > 0)
-            {
-                @foreach(Photo photo in Model)
-                {
-                    <div class="col-3">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="@photo.ImageSrc" alt="immagine @photo.Title">
-                            <div class="card-body">
-                                <h5 class="card-title">@photo.Title</h5>
-                                <p class="card-text">@photo.Description</p>
-                                <p class="card-text">
-                                    <ul class="list-unstyled">
-                                        @if (photo.Categories != null || photo.Categories.Count > 0)
-                                        {
-                                            <li>
-                                                Categorie:
-                                                <ul class="list-unstyled">
-                                                    @foreach (Category category in @photo.Categories)
-                                                    {
-                                                        <li>&nbsp;&nbsp;&nbsp;- @category.Title</li>
-                                                    }
-                                                </ul>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                            <li>Nessuna Categoria per questa foto</li>
-                                        }
-                                    </ul>
-                                </p>
-                                <a href="@Url.Action("Index","Photo")" class="btn btn-primary">Dettagli</a>
-                                <a href="@Url.Action("Index","Photo")" class="btn btn-warning">Modifica</a>
-                                <a href="@Url.Action("Index","Photo")" class="btn btn-danger">Elimina</a>
-                            </div>
-                        </div>
-                    </div>
-                }
 
-            }
-            else
-            {
-                <h2>Nessuna foto ricevuta...</h2>
-            }
+@* Create *@
+<div class="row">
+    <div class="col-12 my-2">
+        <a href="@Url.Action("Index","Photo")" class="btn btn-success ">Aggiungi Foto</a>
     </div>
 </div>
+<div class="row">
+        @if (Model != null || Model.Count > 0)
+        {
+            @foreach(Photo photo in Model)
+            {
+                <div class="col-4 my-3">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="@photo.ImageSrc" alt="immagine @photo.Title">
+                        <div class="card-body">
+                            <h5 class="card-title">@photo.Title</h5>
+                            <p class="card-text">@photo.Description</p>
+                            <p class="card-text">
+                                <ul class="list-unstyled">
+                                    @if (photo.Categories != null || photo.Categories.Count > 0)
+                                    {
+                                        <li>
+                                            Categorie:
+                                            <ul class="list-unstyled">
+                                                @foreach (Category category in @photo.Categories)
+                                                {
+                                                    <li>&nbsp;&nbsp;&nbsp;- @category.Title</li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>Nessuna Categoria per questa foto</li>
+                                    }
+                                </ul>
+                            </p>
+                            <a href="@Url.Action("Index","Photo")" class="btn btn-primary">Dettagli</a>
+                            <a href="@Url.Action("Index","Photo")" class="btn btn-warning">Modifica</a>
+                            <a href="@Url.Action("Index","Photo")" class="btn btn-danger">Elimina</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <h2>Nessuna foto ricevuta...</h2>
+        }
+</div>
+
