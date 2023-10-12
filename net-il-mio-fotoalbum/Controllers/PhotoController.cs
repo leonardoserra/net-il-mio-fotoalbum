@@ -22,6 +22,24 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("Index",photos);
         }
 
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            Photo? photo = _db.Photos.Include(photo => photo.Categories).Where(photo=>photo.Id == id).FirstOrDefault();
+            return View("Details", photo);
+        }
+
+
+
+
+
+
+
+
+
+
+
         public IActionResult Credits()
         {
             return View();
