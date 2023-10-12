@@ -18,7 +18,16 @@ namespace net_il_mio_fotoalbum.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Photo>? photos = _db.Photos.Include(photo=>photo.Categories).ToList<Photo>();
+            List<Photo>? photos = new List<Photo>();
+            try
+            {
+                photos = _db.Photos.Include(photo => photo.Categories).ToList<Photo>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return View("Error");
+            }
             return View("Index",photos);
         }
 
@@ -26,7 +35,16 @@ namespace net_il_mio_fotoalbum.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            Photo? photo = _db.Photos.Include(photo => photo.Categories).Where(photo=>photo.Id == id).FirstOrDefault();
+            Photo? photo = new Photo();
+            try
+            {
+                photo = _db.Photos.Include(photo => photo.Categories).Where(photo => photo.Id == id).FirstOrDefault();
+            }
+            catch(Exception ex) {
+                Console.WriteLine(ex.Message);
+                return View("Error");
+            }
+            
             return View("Details", photo);
         }
 
@@ -48,7 +66,7 @@ namespace net_il_mio_fotoalbum.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View("Error");
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

@@ -3,20 +3,23 @@
 }
 @model Photo
 
-<div class="row ">
+<div class="row justify-content-center">
     @if(Model!= null && Model.Visibility)
     {
-        <div class="col-12">
-            <div class="card" style="width: 18rem;">
-                <img src="@Model.ImageSrc" class="card-img-top" alt="Foto @Model.Title">
+        <div class="col-12 d-flex">
+            <div class="card w-75">
+                
+                <img  src="@Model.ImageSrc" class="card-img-top " alt="Foto @Model.Title">
+            </div>
+            <div class="card w-25">
                 <div class="card-body">
                     <h2>Titolo: @Model.Title</h2>
                     <p class="card-text">Descrizione: @Model.Description</p>
-                    @if (Model.Categories!=null && Model.Categories.Count > 0)
+                    @if (Model.Categories != null && Model.Categories.Count > 0)
                     {
                         <div>Categorie:</div>
                         <ul class="list-unstyled">
-                            @foreach(Category category in Model.Categories)
+                            @foreach (Category category in Model.Categories)
                             {
                                 <li>@category.Title</li>
                             }
@@ -24,6 +27,7 @@
                     }
                 </div>
             </div>
+           
         </div>
 
     }
