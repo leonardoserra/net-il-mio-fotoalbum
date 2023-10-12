@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Database;
@@ -175,6 +176,20 @@ namespace net_il_mio_fotoalbum.Controllers
             }
             */
             return View("WorkInProgress");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            Photo? photoToDelete = _db.Photos.Where(pizza => pizza.Id == id).FirstOrDefault();
+            if (photoToDelete == null)
+                return View("Error");
+
+            _db.Photos.Remove(photoToDelete);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Credits()
