@@ -48,6 +48,14 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("Details", photo);
         }
 
+
+        [HttpGet]
+        public IActionResult Create() {
+
+            return View("Create");
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SwitchVisibility(int id)
