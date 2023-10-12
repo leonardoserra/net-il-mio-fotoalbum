@@ -31,6 +31,10 @@ namespace net_il_mio_fotoalbum.Controllers
             }
             return View("Index",photos);
         }
+
+
+
+        //TO DO
         [HttpPost]
         /*[Route("/Photo/SearchPhotosByTitle/{searchString}", Name = "SearchPhotosByTitle")]*/
         [ValidateAntiForgeryToken]
