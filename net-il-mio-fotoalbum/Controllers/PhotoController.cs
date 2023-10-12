@@ -48,6 +48,26 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("Details", photo);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SwitchVisibility(int id)
+        {
+            /*Photo? photo = new Photo();
+            try
+            {
+                photo = _db.Photos.Where(photo => photo.Id == id).FirstOrDefault();
+                if(photo!=null)
+                photo.Visibility = !photo.Visibility;
+                _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return View("Error");
+            }
+            */
+            return View("WorkInProgress");
+        }
 
 
 
