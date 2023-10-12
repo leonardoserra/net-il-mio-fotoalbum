@@ -10,66 +10,62 @@
     </div>
 </div>
 <div class="row">
-        @if (Model != null && Model.Count > 0)
+    @if (Model != null && Model.Count > 0)
+    {
+        @foreach(Photo photo in Model)
         {
-            @foreach(Photo photo in Model)
-            {
-            @if (photo.Visibility)
-            {
-                <div class="col-6 my-3 d-flex ">
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="@photo.ImageSrc" alt="immagine @photo.Title">
-                    </div>
-                    <div class="card" style="width: 14rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">@photo.Title</h5>
-                            <p class="card-text">@photo.Description</p>
-                            <p class="card-text">
-                                <ul class="list-unstyled">
-                                    @if (photo.Categories != null && photo.Categories.Count > 0)
-                                    {
-                                        <li>
-                                            Categorie:
-                                            <ul class="list-unstyled">
-                                                @foreach (Category category in @photo.Categories)
-                                                {
-                                                    <li>&nbsp;&nbsp;&nbsp;- @category.Title</li>
-                                                }
-                                            </ul>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li>Nessuna Categoria per questa foto</li>
-                                    }
-                                </ul>
-                                </p>
-                            </div>
-                        </div>
-
-                    @* BUTTONS *@
-                    <div class="card d-flex flex-column justify-content-center border-0" style="width: 3rem;">
-                        @* DETTAGLI *@
-                        <a href="@Url.Action("Details","Photo", new{id=@photo.Id})" class="btn btn-primary my-1 ms-1">
-                            <i class="bi bi-arrow-up-right-square-fill"></i>
-                        </a>
-                        @* MODIFICA *@
-                        <a href="@Url.Action("Index","Photo")" class="btn btn-warning my-1 ms-1">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        @* ELIMINA *@
-                        <a href="@Url.Action("Index","Photo")" class="btn btn-danger my-1 ms-1">
-                            <i class="bi bi-x-square-fill"></i>
-                        </a>
-                    </div>
+            <div class="col-6 my-3 d-flex ">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="@photo.ImageSrc" alt="immagine @photo.Title">
                 </div>
-                }
-            }
+                <div class="card" style="width: 14rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@photo.Title</h5>
+                        <p class="card-text">@photo.Description</p>
+                        <p class="card-text">
+                            <ul class="list-unstyled">
+                                @if (photo.Categories != null && photo.Categories.Count > 0)
+                                {
+                                    <li>
+                                        Categorie:
+                                        <ul class="list-unstyled">
+                                            @foreach (Category category in @photo.Categories)
+                                            {
+                                                <li>&nbsp;&nbsp;&nbsp;- @category.Title</li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>Nessuna Categoria per questa foto</li>
+                                }
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
 
+                @* BUTTONS *@
+                <div class="card d-flex flex-column justify-content-center border-0" style="width: 3rem;">
+                    @* DETTAGLI *@
+                    <a href="@Url.Action("Details","Photo", new{id=@photo.Id})" class="btn btn-primary my-1 ms-1">
+                        <i class="bi bi-arrow-up-right-square-fill"></i>
+                    </a>
+                    @* MODIFICA *@
+                    <a href="@Url.Action("Index","Photo")" class="btn btn-warning my-1 ms-1">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    @* ELIMINA *@
+                    <a href="@Url.Action("Index","Photo")" class="btn btn-danger my-1 ms-1">
+                        <i class="bi bi-x-square-fill"></i>
+                    </a>
+                </div>
+            </div>
         }
-        else
-        {
-            <h2>Nessuna foto ricevuta...</h2>
-        }
+    }
+    else
+    {
+        <h2>Nessuna foto ricevuta...</h2>
+    }
 </div>
 
