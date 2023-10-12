@@ -8,18 +8,26 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/net_il_mio_fotoalbum.styles.css" asp-append-version="true" />
 </head>
-<body>
-    @Html.Partial("Partials/_Header")
+<body class="position-absolute">
+    @* HEADER *@
+    <div class="container">
 
-    <div id="layout-main" class="container">
-        <main role="main" class="pb-3">
+        @Html.Partial("Partials/_Header")
+  
+
+
+    @* MAIN *@
+        <main role="main" id="layout-main">
             @RenderBody()
         </main>
-    </div>
-
-
-    @Html.Partial("Partials/_Footer")
     
+
+
+    @* FOOTER *@
+  
+        @Html.Partial("Partials/_Footer")
+    </div>
+  
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

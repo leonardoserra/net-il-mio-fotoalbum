@@ -2,7 +2,13 @@
     ViewData["Title"] = "Gestione Album Fotografico";
 }
 @model List<Photo>
-<div class="container">
+<div class="container-fluid" id="layout-main">
+    @* Create *@
+    <div class="row">
+        <div class="col-12 my-2">
+            <a href="@Url.Action("Index","Photo")" class="btn btn-success ">Aggiungi Foto</a>
+        </div>
+    </div>
     <div class="row">
             @if (Model != null || Model.Count > 0)
             {
@@ -13,7 +19,7 @@
                             <img class="card-img-top" src="@photo.ImageSrc" alt="immagine @photo.Title">
                             <div class="card-body">
                                 <h5 class="card-title">@photo.Title</h5>
-                            <p class="card-text">@photo.Description</p>
+                                <p class="card-text">@photo.Description</p>
                                 <p class="card-text">
                                     <ul class="list-unstyled">
                                         @if (photo.Categories != null || photo.Categories.Count > 0)
@@ -34,7 +40,9 @@
                                         }
                                     </ul>
                                 </p>
-                                <a href="@Url.Action("Index","Photo")" class="btn btn-primary">Go somewhere</a>
+                                <a href="@Url.Action("Index","Photo")" class="btn btn-primary">Dettagli</a>
+                                <a href="@Url.Action("Index","Photo")" class="btn btn-warning">Modifica</a>
+                                <a href="@Url.Action("Index","Photo")" class="btn btn-danger">Elimina</a>
                             </div>
                         </div>
                     </div>
@@ -44,7 +52,6 @@
             else
             {
                 <h2>Nessuna foto ricevuta...</h2>
-
             }
     </div>
 </div>

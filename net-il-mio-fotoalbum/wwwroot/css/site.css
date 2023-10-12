@@ -1,10 +1,38 @@
-* {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+html {
+    font-size: 18px;
 }
 
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
 
 #layout-main {
-    height: calc(100vh - 100px);
+ 
+    margin-top: 70px;
+    padding-bottom:40px;
+}
+
+#layout-header {
+    height: 70px;
+    width: 100%;
+}
+
+#layout-footer {
+    height: 55px;
+    width: 100%;
+}   
+
+#layout-header, #layout-footer {
+    z-index:1000;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
 }
