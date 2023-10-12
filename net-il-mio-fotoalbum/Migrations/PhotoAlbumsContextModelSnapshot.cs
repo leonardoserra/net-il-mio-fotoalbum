@@ -34,7 +34,7 @@ namespace net_il_mio_fotoalbum.Migrations
 
                     b.HasIndex("PhotosId");
 
-                    b.ToTable("CategoryPhoto");
+                    b.ToTable("CategoryPhoto", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -251,7 +251,7 @@ namespace net_il_mio_fotoalbum.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("categories");
+                    b.ToTable("categories", (string)null);
                 });
 
             modelBuilder.Entity("net_il_mio_fotoalbum.Models.Message", b =>
@@ -275,7 +275,7 @@ namespace net_il_mio_fotoalbum.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("messages");
+                    b.ToTable("messages", (string)null);
                 });
 
             modelBuilder.Entity("net_il_mio_fotoalbum.Models.Photo", b =>
@@ -309,7 +309,7 @@ namespace net_il_mio_fotoalbum.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("photos");
+                    b.ToTable("photos", (string)null);
                 });
 
             modelBuilder.Entity("CategoryPhoto", b =>
