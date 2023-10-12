@@ -30,6 +30,29 @@ namespace net_il_mio_fotoalbum.Controllers
             }
             return View("Index",photos);
         }
+        [HttpGet]
+        public IActionResult SearchPhotosByTitle(string? title)
+        {
+            List<Photo>? photos = new List<Photo>();
+            try
+            {
+                if (title == null || title =="")
+                {
+                    photos = _db.Photos.Include(photo => photo.Categories).ToList<Photo>();
+                }
+                else
+                {
+                    photos = _db.Photos.Include(photo => photo.Categories).Where(photo=>photo.Title.ToLower().Contains(title.ToLower())).ToList<Photo>();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return View("Error");
+            }
+            return View("Index", photos);
+        }
+
 
 
         [HttpGet]
