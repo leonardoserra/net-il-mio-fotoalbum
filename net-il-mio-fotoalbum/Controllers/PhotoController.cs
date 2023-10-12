@@ -106,6 +106,55 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("Create", photoComplex);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(PhotoComplex dataReceived)
+        {
+            if (!ModelState.IsValid)
+            {
+                
+                List<Category> categories = new List<Category>();
+                List<SelectListItem> categoriesToSend = new List<SelectListItem>();
+                try
+                {
+                    categories = _db.Categories.ToList();
+                    foreach (Category category in categories)
+                    {
+                        categoriesToSend.Add(
+                            new SelectListItem { Text = category.Title, Value = category.Id.ToString() }
+                            );
+                    }
+
+                }catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return View("Error");
+                }
+
+
+                dataReceived.Categories = categoriesToSend;
+                return View("Create", dataReceived);
+            }
+
+            dataReceived.Photo.Categories = new List<Category>();
+            if (dataReceived.SelectedCategoryId != null)
+            {
+                foreach (string selectedCategory in dataReceived.SelectedCategoryId) {
+                    int parsedCategoryId = int.Parse(selectedCategory);
+                    Category? categoryInDb = _db.Categories.Where(category => category.Id == parsedCategoryId).FirstOrDefault();
+                    if (categoryInDb != null)
+                        dataReceived.Photo.Categories.Add(categoryInDb);
+                }
+            }
+            this.SetImageFileFromFormFile(dataReceived);
+
+            //salva in db
+            _db.Photos.Add(dataReceived.Photo);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+       
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -128,15 +177,6 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("WorkInProgress");
         }
 
-
-
-
-
-
-
-
-
-
         public IActionResult Credits()
         {
             return View();
@@ -146,6 +186,19 @@ namespace net_il_mio_fotoalbum.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        //Funzione che converte il file mandato dal form in byte[] e imposta l'immagine
+        private void SetImageFileFromFormFile(PhotoComplex formDataReceived)
+        {
+            if (formDataReceived.ImageFormFile == null)
+            {
+                return;
+            }
+
+            MemoryStream stream = new MemoryStream();
+            formDataReceived.ImageFormFile.CopyTo(stream);
+            formDataReceived.Photo.ImageFile = stream.ToArray();
         }
     }
 }
