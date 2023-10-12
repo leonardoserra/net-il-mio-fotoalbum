@@ -1,89 +1,114 @@
 ﻿@{
     ViewData["Title"] = "Gestione Album Fotografico";
+    string searchString = "fo";
 }
 @model List<Photo>
 
 @* Create *@
 <div class="row">
     <div class="col-12 my-2">
-        <a href="@Url.Action("Index","Photo")" class="btn btn-success ">Aggiungi Foto</a>
+        <a href="@Url.Action("Create","Photo")" class="btn btn-success ">Aggiungi Foto</a>
     </div>
+</div>
+@* Search *@
+<div class="row">
+    @*  <div class="col-12 my-2">
+        <a href="@Url.Action("SearchPhotosByTitle","Photo",new{searchString=searchString})" class="btn btn-info ">CERCA</a>
+    </div> *@
+    
+    @* <form asp-controller="Photo" asp-action="SearchPhotosByTitle" method="post">
+        @Html.AntiForgeryToken()
+        <label for="searchString" class="form-label">Cerca per titolo:</label>
+        <input asp-route="SearchPhotosByTitle" id="searchString" type="text">
+        <button asp-route="SearchPhotosByTitle" type="submit" class="btn btn-info my-1 ms-1">CERCA</button>
+    </form> *@
+
+    @* <div class="col">
+        <label for="search" class="form-label">Cerca foto per Titolo</label>
+        <input id="search" type="text">
+        <button onclick="@searchTitle=search.value">Cerca</button>
+    </div> *@
+
 </div>
 <div class="row">
     @if (Model != null && Model.Count > 0)
     {
         @foreach(Photo photo in Model)
         {
-            <div class="col-6 my-3 d-flex ">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="@photo.ImageSrc" alt="immagine @photo.Title">
-                </div>
-                <div class="card" style="width: 14rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">@photo.Title</h5>
-                        <p class="card-text">@photo.Description</p>
-                        <p class="card-text">
-                            <ul class="list-unstyled">
-                                @if (photo.Categories != null && photo.Categories.Count > 0)
-                                {
-                                    <li>
-                                        Categorie:
-                                        <ul class="list-unstyled">
-                                            @foreach (Category category in @photo.Categories)
-                                            {
-                                                <li>&nbsp;&nbsp;&nbsp;- @category.Title</li>
-                                            }
-                                        </ul>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li>Nessuna Categoria per questa foto</li>
-                                }
-                            </ul>
+           @*  if (photo.Title.ToLower().Contains(searchTitle.ToLower()))
+            { *@
+                <div class="col-6 my-3 d-flex ">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="@photo.ImageSrc" alt="immagine @photo.Title">
+                    </div>
+                    <div class="card" style="width: 14rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">@photo.Title</h5>
+                            <p class="card-text">@photo.Description</p>
+                            <p class="card-text">
+                                <ul class="list-unstyled">
+                                    @if (photo.Categories != null && photo.Categories.Count > 0)
+                                    {
+                                        <li>
+                                            Categorie:
+                                            <ul class="list-unstyled">
+                                                @foreach (Category category in @photo.Categories)
+                                                {
+                                                    <li>&nbsp;&nbsp;&nbsp;- @category.Title</li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>Nessuna Categoria per questa foto</li>
+                                    }
+                                </ul>
                             </p>
                         </div>
                     </div>
 
-                @* BUTTONS *@
-                <div class="card d-flex flex-column justify-content-center border-0" style="width: 3rem;">
-                    @* DETTAGLI *@
-                    <a href="@Url.Action("Details","Photo", new{id=@photo.Id})" class="btn btn-primary my-1 ms-1">
-                        <i class="bi bi-arrow-up-right-square-fill"></i>
-                    </a>
-                    @* MODIFICA *@
-                    <a href="@Url.Action("Index","Photo")" class="btn btn-warning my-1 ms-1">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
-                    @* VISIBILITÀ *@
-                    @* TO DO, Bisogna creare una chiamata post che cambia la visibilità della foto *@
-                    @if (photo.Visibility)
-                    {
-                        <form asp-controller="Photo" asp-action="SwitchVisibility" asp-route-id="@photo.Id" method="post">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-info my-1 ms-1">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </form>
-                        
-                    }
-                    else
-                    {
-                        <form asp-controller="Photo" asp-action="SwitchVisibility" asp-route-id="@photo.Id" method="post">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-secondary my-1 ms-1">
-                                <i class="bi bi-eye-slash"></i>
-                            </button>
-                        </form>
+                    @* BUTTONS *@
+                    <div class="card d-flex flex-column justify-content-center border-0" style="width: 3rem;">
+                        @* DETTAGLI *@
+                        <a href="@Url.Action("Details","Photo", new{id=@photo.Id})" class="btn btn-primary my-1 ms-1">
+                            <i class="bi bi-arrow-up-right-square-fill"></i>
+                        </a>
+                        @* MODIFICA *@
+                        <a href="@Url.Action("Index","Photo")" class="btn btn-warning my-1 ms-1">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        @* VISIBILITÀ *@
+                        @* TO DO, Bisogna creare una chiamata post che cambia la visibilità della foto *@
+                        @if (photo.Visibility)
+                        {
+                            <form asp-controller="Photo" asp-action="SwitchVisibility" asp-route-id="@photo.Id" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-info my-1 ms-1">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </form>
 
-                        
-                    }
-                    @* ELIMINA *@
-                    <a href="@Url.Action("Index","Photo")" class="btn btn-danger my-1 ms-1">
-                        <i class="bi bi-x-square-fill"></i>
-                    </a>
+                        }
+                        else
+                        {
+                            <form asp-controller="Photo" asp-action="SwitchVisibility" asp-route-id="@photo.Id" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-secondary my-1 ms-1">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </form>
+
+
+                        }
+                        @* ELIMINA *@
+                        <a href="@Url.Action("Index","Photo")" class="btn btn-danger my-1 ms-1">
+                            <i class="bi bi-x-square-fill"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
+
+           @*  } *@
         }
     }
     else
@@ -91,4 +116,10 @@
         <h2>Nessuna foto ricevuta...</h2>
     }
 </div>
+
+@section Scripts{
+    <script>
+
+    </script>
+}
 

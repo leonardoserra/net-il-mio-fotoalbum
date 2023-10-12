@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Database;
 using net_il_mio_fotoalbum.Models;
@@ -30,19 +31,22 @@ namespace net_il_mio_fotoalbum.Controllers
             }
             return View("Index",photos);
         }
-        [HttpGet]
-        public IActionResult SearchPhotosByTitle(string? title)
+        [HttpPost]
+        /*[Route("/Photo/SearchPhotosByTitle/{searchString}", Name = "SearchPhotosByTitle")]*/
+        [ValidateAntiForgeryToken]
+        public IActionResult SearchPhotosByTitle(string? searchString)
         {
             List<Photo>? photos = new List<Photo>();
             try
             {
-                if (title == null || title =="")
+                if (searchString == null || searchString =="")
                 {
-                    photos = _db.Photos.Include(photo => photo.Categories).ToList<Photo>();
+                    return this.Index();
+                    /*photos = _db.Photos.Include(photo => photo.Categories).ToList<Photo>();*/
                 }
                 else
                 {
-                    photos = _db.Photos.Include(photo => photo.Categories).Where(photo=>photo.Title.ToLower().Contains(title.ToLower())).ToList<Photo>();
+                    photos = _db.Photos.Include(photo => photo.Categories).Where(photo=>photo.Title.ToLower().Contains(searchString.ToLower())).ToList<Photo>();
                 }
             }
             catch (Exception ex)
@@ -72,10 +76,30 @@ namespace net_il_mio_fotoalbum.Controllers
         }
 
 
+        /*CREATE*/
         [HttpGet]
-        public IActionResult Create() {
-
-            return View("Create");
+        public IActionResult Create()
+        {
+            List<Category> categories = new List<Category>();
+            List<SelectListItem> categoriesToSend = new List<SelectListItem>();
+            PhotoComplex photoComplex;
+            try
+            {
+                categories = _db.Categories.ToList();
+                foreach(Category category in categories)
+                {
+                    categoriesToSend.Add(
+                        new SelectListItem { Text = category.Title, Value = category.Id.ToString() }
+                        );
+                }
+                
+                photoComplex = new PhotoComplex {Photo=new Photo(),Categories=categoriesToSend };
+            }catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return View("Error");
+            }
+            return View("Create", photoComplex);
         }
 
 
