@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
+    [Authorize(Roles = "ADMIN,USER")]
     public class PhotoController : Controller
     {
         protected PhotoAlbumsContext _db = new PhotoAlbumsContext();
@@ -17,6 +18,8 @@ namespace net_il_mio_fotoalbum.Controllers
             _db = db;
         }
 
+
+        [Authorize(Roles = "ADMIN,USER")]
         [HttpGet]
         public IActionResult Index()
         {
@@ -63,7 +66,7 @@ namespace net_il_mio_fotoalbum.Controllers
         }
 
 
-
+        [Authorize(Roles = "ADMIN,USER")]
         [HttpGet]
         public IActionResult Details(int id)
         {
@@ -82,6 +85,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
 
         /*CREATE*/
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -107,6 +111,7 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("Create", dataToSend);
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(PhotoComplex dataReceived)
@@ -155,7 +160,7 @@ namespace net_il_mio_fotoalbum.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -190,6 +195,7 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("Edit", dataToSend);
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, PhotoComplex dataReceived)
@@ -262,7 +268,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
 
 
-
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SwitchVisibility(int id)
@@ -284,6 +290,7 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("WorkInProgress");
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
