@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Switch Visibility";
+}
+@model Photo
+@if (User.IsInRole("ADMIN"))
+{
+    <form asp-controller="Photo" asp-action="SwitchVisibility" method="post" asp-route-id="@Model.Id">
+        @if (Model.Visibility)
+        {
+            <input asp-for="Visibility" type="hidden" value="false">
+        }
+        else
+        {
+            <input asp-for="Visibility" type="hidden" value="true">
+        }
+        <button id="submit-button" type="submit">SWITCHA</button>
+    </form>
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        
+            const submitButton = document.getElementById("submit-button");
+            submitButton.click();
+        
+    </script>
+}

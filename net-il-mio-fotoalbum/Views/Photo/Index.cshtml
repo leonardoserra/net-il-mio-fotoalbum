@@ -64,7 +64,8 @@
         let searchValue = "";
 
         SearchPhotoByTitle(searchValue);
-        searchBar.addEventListener('keyup', (searchValue) => {
+        
+        searchBar.addEventListener('keyup', () => {
             searchValue = searchBar.value;
             this.SearchPhotoByTitle(searchValue);
         });
@@ -95,7 +96,7 @@
                              document.getElementById("card-n-" + photo.id).innerHTML +=
                             `
                                     <div class="card" style="width: 18rem;">
-                                        <img src="${photo.imageSrc}" class="card-img-top" alt="Immagine${photo.title} ">
+                                        <img src="${photo.imageSrc}" class="card-img-top rounded object-fit-cover" alt="Immagine${photo.title} ">
                                     </div>
                                     <div class="card" style="width: 12rem;">
                                         <div class="card-body">
@@ -143,20 +144,17 @@
                             if (photo.visibility) {
                                 document.getElementById("crud-buttons-" + photo.id).innerHTML+=
                                     `
-                                        <form method="post" action="/Photo/SwitchVisibility/${photo.id}">
-                                            <button class="btn btn-info my-1 ms-1" type="submit">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                        </form>
+                                        <a href="Photo/SwitchVisibility/${photo.id}" class="btn btn-info my-1 ms-1">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        
                                     `
                             }else{
                                 document.getElementById("crud-buttons-" + photo.id).innerHTML +=
                                     `
-                                        <form method="post" action="/Photo/SwitchVisibility/${photo.id}">
-                                            <button class="btn btn-info my-1 ms-1" type="submit">
-                                                <i class="bi bi-eye-slash"></i>
-                                            </button>
-                                        </form>
+                                        <a href="Photo/SwitchVisibility/${photo.id}" class="btn btn-info my-1 ms-1">
+                                             <i class="bi bi-eye-slash"></i>
+                                        </a>
                                     `
                             }
                             document.getElementById("crud-buttons-" + photo.id).innerHTML +=
