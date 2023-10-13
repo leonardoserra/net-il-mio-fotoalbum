@@ -87,7 +87,7 @@ namespace net_il_mio_fotoalbum.Controllers
         {
             List<Category> categories = new List<Category>();
             List<SelectListItem> categoriesToSend = new List<SelectListItem>();
-            PhotoComplex photoComplex;
+            PhotoComplex dataToSend;
             try
             {
                 categories = _db.Categories.ToList();
@@ -98,13 +98,13 @@ namespace net_il_mio_fotoalbum.Controllers
                         );
                 }
                 
-                photoComplex = new PhotoComplex {Photo=new Photo(),Categories=categoriesToSend };
+                dataToSend = new PhotoComplex {Photo=new Photo(),Categories=categoriesToSend };
             }catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return View("Error");
             }
-            return View("Create", photoComplex);
+            return View("Create", dataToSend);
         }
 
         [HttpPost]
@@ -138,9 +138,9 @@ namespace net_il_mio_fotoalbum.Controllers
             }
 
             dataReceived.Photo.Categories = new List<Category>();
-            if (dataReceived.SelectedCategoryId != null)
+            if (dataReceived.SelectedCategoriesId != null)
             {
-                foreach (string selectedCategory in dataReceived.SelectedCategoryId) {
+                foreach (string selectedCategory in dataReceived.SelectedCategoriesId) {
                     int parsedCategoryId = int.Parse(selectedCategory);
                     Category? categoryInDb = _db.Categories.Where(category => category.Id == parsedCategoryId).FirstOrDefault();
                     if (categoryInDb != null)
@@ -157,29 +157,37 @@ namespace net_il_mio_fotoalbum.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit()
+        public IActionResult Edit(int id)
         {
+            Photo? photoToUpdate = _db.Photos.Include(photo=>photo.Categories).Where(photo=>photo.Id==id).FirstOrDefault();
+            
+            if(photoToUpdate == null)    
+                return View("Error");
+            
             List<Category> categories = new List<Category>();
             List<SelectListItem> categoriesToSend = new List<SelectListItem>();
-            PhotoComplex photoComplex;
+            PhotoComplex dataToSend;
             try
             {
                 categories = _db.Categories.ToList();
                 foreach (Category category in categories)
                 {
                     categoriesToSend.Add(
-                        new SelectListItem { Text = category.Title, Value = category.Id.ToString() }
-                        );
+                        new SelectListItem { 
+                            Text = category.Title,
+                            Value = category.Id.ToString(),
+                            Selected = photoToUpdate.Categories.Any(selectedCategory=> selectedCategory.Id == category.Id)                       
+                        });
                 }
 
-                photoComplex = new PhotoComplex { Photo = new Photo(), Categories = categoriesToSend };
+                dataToSend = new PhotoComplex { Photo = photoToUpdate, Categories = categoriesToSend };
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return View("Error");
             }
-            return View("Edit", photoComplex);
+            return View("Edit", dataToSend);
         }
 
         [HttpPost]
@@ -214,9 +222,9 @@ namespace net_il_mio_fotoalbum.Controllers
             }
 
             dataReceived.Photo.Categories = new List<Category>();
-            if (dataReceived.SelectedCategoryId != null)
+            if (dataReceived.SelectedCategoriesId != null)
             {
-                foreach (string selectedCategory in dataReceived.SelectedCategoryId)
+                foreach (string selectedCategory in dataReceived.SelectedCategoriesId)
                 {
                     int parsedCategoryId = int.Parse(selectedCategory);
                     Category? categoryInDb = _db.Categories.Where(category => category.Id == parsedCategoryId).FirstOrDefault();

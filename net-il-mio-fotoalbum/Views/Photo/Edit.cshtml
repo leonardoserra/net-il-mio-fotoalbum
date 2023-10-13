@@ -6,7 +6,7 @@
 <div class="row">
     @if (Model != null)
     {
-        <form asp-controller="Photo" asp-action="Edit" method="post" enctype="multipart/form-data">
+        <form asp-controller="Photo" asp-action="Edit" asp-route-id="@Model.Photo.Id" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
             <div class="mb-3">
                 <label asp-for="Photo.Title" class="form-label">Titolo Foto</label>
@@ -30,8 +30,8 @@
             
             @*SELECT MULTIPLE CATEGORIES*@
             <div class="input-group mb-3">
-                <label asp-for="SelectedCategoryId" class="form-label">Assegna una o piú categorie (tieni premuto CTRL e selezionane piu di una alla volta) :</label>
-                <select id="ingredients-input" asp-for="SelectedCategoryId"
+                <label asp-for="SelectedCategoriesId" class="form-label">Assegna una o piú categorie (tieni premuto CTRL e selezionane piu di una alla volta) :</label>
+                <select id="ingredients-input" asp-for="SelectedCategoriesId"
                         multiselect="multiselect"
                         rows="5"
                         class="form-select d-block w-100"
