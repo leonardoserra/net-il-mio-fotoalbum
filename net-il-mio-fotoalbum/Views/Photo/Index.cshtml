@@ -27,27 +27,28 @@
 }
 
 @* BARRA RICERCA *@
-@* <div class="row mt-3 mb-1">
+<div class="row mt-3 mb-1">
     <h2 class="col-12">Cerca la foto per titolo</h2>
 </div>
-<div class="row mb-3 mt-1 ms-1">
-    <input id="search-bar" type="text" class="col-3" />
-</div> *@
+<div class="row mb-3 mt-1 ms-1 ">
+    <input id="search-bar" type="text" class="col-3 border-end-0" />
+    <button id="search-button" class=" col-1 border-start-0">CERCA</button>
+</div>
 
 @* AVVISI *@
-@* <div class="row my-3"> *@
+<div class="row my-3">
     @* NO FOTO *@
- @*    <div id="no-photos-message" class="col d-none">
+    <div id="no-photos-message" class="col d-none">
         <h2>Nessuna Foto presente nell album, scattane qualcuna!</h2>
-    </div> *@
-    @* SPINNER LOADING *@
-  @*   <div id="spinner" class="col">
+    </div>
+   @*  SPINNER LOADING  *@
+   <div id="spinner" class="col">
         <div class="spinner-border" role="status"></div>
     </div>
-</div> *@
+</div>
 @* CARD CONTAINER *@
-@* <div id="my-card-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-</div> *@
+<div id="my-card-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+</div>
 
 
 
@@ -155,7 +156,7 @@
 </div>
 
 @section Scripts{
-   @*  <script type="text/javascript" >
+   <script type="text/javascript" >
 
         //riferimenti al dom
 
@@ -163,18 +164,18 @@
         const spinner = document.getElementById("spinner");
         const noPhotosMessage = document.getElementById("no-photos-message");
         const searchBar = document.getElementById("search-bar");
+       const searchButton = document.getElementById("search-button");
         let searchValue = "";
 
         SearchPhotoByTitle(searchValue);
-        searchBar.addEventListener('keyup', function () {
+        searchButton.addEventListener('click', () => {
             searchValue = searchBar.value;
             SearchPhotoByTitle(searchValue);
-            const cardToVisualize = document.querySelectorAll("." + searchValue)
         });
 
         function SearchPhotoByTitle(photoTitle) {
 
-            axios.get("/api/Photo/SearchPhotoByTitle",
+            axios.get("/api/PhotoAPI/SearchPhotoByTitle",
             {
                 params: { title: photoTitle }
 
@@ -189,6 +190,7 @@
                     noPhotosMessage.classList.add("d-none");
                     spinner.classList.add("d-none");
                     cardContainer.innerHTML = "";
+                    
                     photos.forEach(photo => {
                         cardContainer.innerHTML +=
                         `
@@ -196,10 +198,31 @@
                                 <div class="card" style="width: 18rem;">
                                     <img src="${photo.imageSrc}" class="card-img-top" alt="Immagine${photo.title} ">
                                     <div class="card-body">
-                                        <h5 class="card-title">Titolo ${photo.title}</h5>
+                                        <h5 class="card-title">${photo.title}</h5>
                                         <p class="card-text">${photo.description}</p>
-                                        
-                                    </div>
+                                        <p id="categories-p" class="card-text" > Categorie:
+                                                `
+                        if (photo.categories.length > 0) {
+                                document.getElementById("categories-p").innerHTML +=
+                                `
+                                                <ul id="categories-ul" class="list-unstyled" >
+                                    `;
+                            photo.categories.forEach(category => {
+                                    document.getElementById("categories-ul").innerHTML +=
+                                    `
+                                                    <li>-${category.title}</li>
+                                        `;
+                            });
+                                document.getElementById("categories-p").innerHTML +=
+                                `
+                                                </ul>
+                                            </p>
+                                    `;
+                        } else {
+                            cardContainer.innerHTML += "<li>nessuna categoria assegnata</li>";
+                        }
+                        cardContainer.innerHTML +=
+                            `
                                 </div>
                             </div>
                         `
@@ -208,6 +231,6 @@
                 }
             });
         }
-    </script> *@
+    </script> 
 }
 
