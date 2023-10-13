@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
 namespace net_il_mio_fotoalbum.Models
 {
     [Table("categories")]
@@ -17,6 +19,7 @@ namespace net_il_mio_fotoalbum.Models
 
 
         //relation n to n
+        [JsonIgnore]
         [Column("photos")]
         public List<Photo>? Photos { get; set; }
 

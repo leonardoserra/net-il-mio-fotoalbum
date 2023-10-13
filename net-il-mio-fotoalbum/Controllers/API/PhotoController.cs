@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+
 using net_il_mio_fotoalbum.Database;
 using net_il_mio_fotoalbum.Models;
 
 namespace net_il_mio_fotoalbum.Controllers.API
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class PhotoController : ControllerBase
     {
@@ -18,6 +21,7 @@ namespace net_il_mio_fotoalbum.Controllers.API
             this._db = db;
         }
 
+       
         [HttpGet]
         public IActionResult GetPhotos()
         {
@@ -28,7 +32,7 @@ namespace net_il_mio_fotoalbum.Controllers.API
             return Ok(photos);
         }
         [HttpGet]
-        public IActionResult SearchPhotoByName(string? search)
+        public IActionResult SearchPhotoByTitle(string? search)
         {
 
             if (search == null || search.Length == 0)

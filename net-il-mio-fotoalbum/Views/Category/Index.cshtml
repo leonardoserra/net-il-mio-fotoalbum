@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Le Categorie";
+}
+
+
+@* Create *@
+@if (User.IsInRole("ADMIN"))
+{
+    <div class="row">
+        <div class="col-12 my-2">
+            <a href="@Url.Action("Create","Category")" class="btn btn-success ">Aggiungi Foto</a>
+        </div>
+    </div>
+}
+
+
+@* AVVISI *@
+<div class="row my-3">
+    @* NO FOTO *@
+    <div id="no-categories-message" class="col d-none">
+        <h2>Nessuna Categoria presente nell album, aggiungine una!</h2>
+    </div>
+    @* SPINNER LOADING *@
+    <div id="spinner" class="col">
+        <div class="spinner-border" role="status"></div>
+    </div>
+</div>
+@* CARD CONTAINER *@
+<div id="my-card-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Categoria</th>
+            </tr>
+        </thead>
+        <tbody id="table-body-row">
+            @* Here cicles the categories in JS *@
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+@section Scripts{
+    <script type="text/javascript" >
+
+        //riferimenti al dom
+        const tableBodyRow = document.getElementById("table-body-row");
+        const spinner = document.getElementById("spinner");
+        const noCategoriesMessage = document.getElementById("no-categories-message");
+        
+
+        GetCategories();
+        
+
+        function GetCategories() {
+
+            axios.get("/api/Category/GetCategories").then((response) => {
+                console.log(response.data);
+                const categories = response.data;
+                if (categories == null || categories.length == 0) {
+                    spinner.classList.add("d-none");
+                    noCategoriesMessage.classList.remove("d-none");
+                    tableBodyRow.innerHTML = "";
+                } else {
+                    noCategoriesMessage.classList.add("d-none");
+                    spinner.classList.add("d-none");
+                    tableBodyRow.innerHTML = "";
+                    categories.forEach(category => {
+                        tableBodyRow.innerHTML +=
+                        `
+                                <tr>
+                                    <th scope="row">${category.id}</th>
+                                    <td>${category.title}</td>
+                                </tr>
+                        `
+                    });
+
+                }
+            });
+        }
+    </script>
+}
+
