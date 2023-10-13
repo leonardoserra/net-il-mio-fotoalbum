@@ -13,7 +13,7 @@
             </div>
             <div class="card w-25">
                 <div class="card-body">
-                    <h2>Titolo: @Model.Title</h2>
+                    <h2 class="card-title">Titolo: @Model.Title</h2>
                     <p class="card-text">Descrizione: @Model.Description</p>
                     @if (Model.Categories != null && Model.Categories.Count > 0)
                     {
@@ -25,6 +25,19 @@
                             }
                         </ul>
                     }
+
+                    @* MODIFICA *@
+                    <a href="@Url.Action("Edit","Photo",new{id=Model.Id})" class="btn btn-warning my-1 ms-1">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+
+                    @* ELIMINA *@
+                    <form asp-controller="Photo" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger my-1 ms-1">
+                            <i class="bi bi-x-square-fill"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
            
