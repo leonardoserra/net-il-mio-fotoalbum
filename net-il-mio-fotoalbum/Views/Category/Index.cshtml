@@ -18,7 +18,7 @@
 <div class="row my-3">
     @* NO FOTO *@
     <div id="no-categories-message" class="col d-none">
-        <h2>Nessuna Categoria presente nell album, aggiungine una!</h2>
+        <h2>Nessuna Categoria presente nell' album, aggiungine una!</h2>
     </div>
     @* SPINNER LOADING *@
     <div id="spinner" class="col">
@@ -32,6 +32,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Categoria</th>
+                <th scope="col">Elimina</th>
             </tr>
         </thead>
         <tbody id="table-body-row">
@@ -52,11 +53,8 @@
         const tableBodyRow = document.getElementById("table-body-row");
         const spinner = document.getElementById("spinner");
         const noCategoriesMessage = document.getElementById("no-categories-message");
-        
-
         GetCategories();
         
-
         function GetCategories() {
 
             axios.get("/api/CategoryAPI/GetCategories").then((response) => {
@@ -75,7 +73,12 @@
                         `
                                 <tr>
                                     <th scope="row">${category.id}</th>
-                                    <td>${category.title}</td>
+                                        <td>${category.title}</td>
+                                        <td>
+                                            <form method="post" action="/Category/Delete/${category.id}">
+                                                <button class="btn btn-danger" type="submit">Elimina <i class="bi bi-x-square-fill"></i></button>
+                                            </form>
+                                        </td>
                                 </tr>
                         `
                     });
@@ -83,6 +86,9 @@
                 }
             });
         }
+
+
+        
     </script>
 }
 

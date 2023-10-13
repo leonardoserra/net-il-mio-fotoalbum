@@ -45,6 +45,25 @@ namespace net_il_mio_fotoalbum.Controllers.API
             return Ok();
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+                return BadRequest(new { message = "Inserire un id" });
+
+            Photo? photoToDelete = _db.Photos.Where(photo => photo.Id == id)
+                                    .FirstOrDefault();
+            if (photoToDelete == null)
+                return NotFound(new { message = "Foto non trovata a quell id" });
+
+            _db.Remove(photoToDelete);
+            int success = _db.SaveChanges();
+
+            if (success != 1)
+                return BadRequest(new { message = "Dati inviati non validi" });
+
+            return Ok(photoToDelete);
+        }
 
     }
 }
