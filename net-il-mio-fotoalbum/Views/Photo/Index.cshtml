@@ -6,6 +6,8 @@
 @* Create *@
 @if (User.IsInRole("ADMIN"))
 {
+
+    <input id="manage-buttons" type="hidden" value="true">
     <div class="d-flex">
         <div class="row me-2">
             <div class="col-12 my-2">
@@ -23,7 +25,10 @@
             </div>
         </div>
     </div>
-
+}
+else
+{
+    <input id="manage-buttons" type="hidden" value="false">
 }
 
 @* BARRA RICERCA *@
@@ -61,10 +66,12 @@
         const noPhotosMessage = document.getElementById("no-photos-message");
         const searchBar = document.getElementById("search-bar");
         const searchButton = document.getElementById("search-button");
+        
+
         let searchValue = "";
 
         SearchPhotoByTitle(searchValue);
-        
+        const manageButtons = document.getElementById("manage-buttons").value;
         searchBar.addEventListener('keyup', () => {
             searchValue = searchBar.value;
             this.SearchPhotoByTitle(searchValue);
@@ -88,7 +95,6 @@
                     cardContainer.innerHTML = "";
                     
                     photos.forEach(photo => {
-                        
                         cardContainer.innerHTML +=
                         `
                             <div id="card-n-${photo.id}" class="col-6 my-3 d-flex">
@@ -136,26 +142,29 @@
                                 <a href="/Photo/Details/${photo.id}" class="btn btn-primary my-1 ms-1">
                                     <i class="bi bi-arrow-up-right-square-fill"></i>
                                 </a>
+                            `
+                        if (manageButtons == "true") {
 
+                            document.getElementById("crud-buttons-" + photo.id).innerHTML +=
+                            `
                                 <a href="/Photo/Edit/${photo.id}" class="btn btn-warning my-1 ms-1">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                             `
                             if (photo.visibility) {
-                                document.getElementById("crud-buttons-" + photo.id).innerHTML+=
-                                    `
-                                        <a href="Photo/SwitchVisibility/${photo.id}" class="btn btn-info my-1 ms-1">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        
-                                    `
-                            }else{
                                 document.getElementById("crud-buttons-" + photo.id).innerHTML +=
-                                    `
-                                        <a href="Photo/SwitchVisibility/${photo.id}" class="btn btn-info my-1 ms-1">
-                                             <i class="bi bi-eye-slash"></i>
-                                        </a>
-                                    `
+                                `
+                                    <a href="Photo/SwitchVisibility/${photo.id}" class="btn btn-info my-1 ms-1">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                `
+                            } else {
+                                document.getElementById("crud-buttons-" + photo.id).innerHTML +=
+                                `
+                                    <a href="Photo/SwitchVisibility/${photo.id}" class="btn btn-info my-1 ms-1">
+                                        <i class="bi bi-eye-slash"></i>
+                                    </a>
+                                `
                             }
                             document.getElementById("crud-buttons-" + photo.id).innerHTML +=
                             `   
@@ -164,7 +173,12 @@
                                 </form>
                             </div>
                             `
-                        
+                        }else{
+                            document.getElementById("crud-buttons-" + photo.id).innerHTML +=
+                            `
+                            </div>
+                            `
+                        }
                     });
 
                 }

@@ -26,8 +26,17 @@ namespace net_il_mio_fotoalbum.Controllers.API
         [HttpGet]
         public IActionResult GetPhotos()
         {
-            List<Photo>? photos = _db.Photos.Include(photo => photo.Categories).ToList();
-            if (photos == null)
+            List<Photo>? photos = new List<Photo>();
+            if (User.IsInRole("ADMIN"))
+            {
+                photos = _db.Photos.Include(photo => photo.Categories).ToList<Photo>();
+            }
+            else if (User.IsInRole("USER"))
+            {
+                photos = _db.Photos.Include(photo => photo.Categories).Where(photo => photo.Visibility == true).ToList<Photo>();
+            }
+
+            if (photos == null || photos.Count == 0)
                 return NotFound(new { message = "Nessuna foto trovata." });
 
             return Ok(photos);

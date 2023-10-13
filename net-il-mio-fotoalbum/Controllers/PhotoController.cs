@@ -26,7 +26,11 @@ namespace net_il_mio_fotoalbum.Controllers
             List<Photo>? photos = new List<Photo>();
             try
             {
-                photos = _db.Photos.Include(photo => photo.Categories).ToList<Photo>();
+                if(User.IsInRole("ADMIN"))
+                    photos = _db.Photos.Include(photo => photo.Categories).ToList<Photo>();
+                else if (User.IsInRole("USER"))
+                    photos = _db.Photos.Include(photo => photo.Categories).Where(photo=>photo.Visibility==true).ToList<Photo>();
+
             }
             catch (Exception ex)
             {
@@ -292,7 +296,6 @@ namespace net_il_mio_fotoalbum.Controllers
                 photo.Visibility = switchedVisibilityPhoto.Visibility;
                 _db.SaveChanges();
             }
-
             return RedirectToAction("Index");
         }
 
