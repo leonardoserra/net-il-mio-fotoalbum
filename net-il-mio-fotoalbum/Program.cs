@@ -1,4 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGeneration;
 using net_il_mio_fotoalbum.Database;
+using NuGet.ContentModel;
+using System.Security.Principal;
+using Microsoft.AspNetCore.Identity;
+using net_il_mio_fotoalbum.Areas.Identity.Data;
+using System.Text.Json.Serialization;
 
 namespace net_il_mio_fotoalbum
 {
@@ -11,9 +18,16 @@ namespace net_il_mio_fotoalbum
             // Add services to the container.
 
             builder.Services.AddDbContext<PhotoAlbumsContext>();
+
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<PhotoAlbumsContext>();
             builder.Services.AddScoped<PhotoAlbumsContext, PhotoAlbumsContext>();
             builder.Services.AddControllersWithViews();
 
+            //setting JSON directive so doesn't try to serialize the Cycliyng informations
+            builder.Services.AddControllers()
+                .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -29,12 +43,15 @@ namespace net_il_mio_fotoalbum
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            //dotnet-aspnet-codegenerator identity --dbContext ProfileContext --files "Account.Login;Account.Logout;Account.Register" -tfm "net60"
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Photo}/{action=Index}/{id?}");
-            
+
+            app.MapRazorPages();
 
             app.Run();
         }
