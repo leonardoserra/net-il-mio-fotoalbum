@@ -192,7 +192,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(PhotoComplex dataReceived)
+        public IActionResult Edit(int id, PhotoComplex dataReceived)
         {
             if (!ModelState.IsValid)
             {
@@ -205,7 +205,9 @@ namespace net_il_mio_fotoalbum.Controllers
                     foreach (Category category in categories)
                     {
                         categoriesToSend.Add(
-                            new SelectListItem { Text = category.Title, Value = category.Id.ToString() }
+                            new SelectListItem { 
+                                Text = category.Title,
+                                Value = category.Id.ToString() }
                             );
                     }
 
@@ -218,10 +220,22 @@ namespace net_il_mio_fotoalbum.Controllers
 
 
                 dataReceived.Categories = categoriesToSend;
+                
                 return View("Edit", dataReceived);
             }
 
-            dataReceived.Photo.Categories = new List<Category>();
+            //scrivo in db
+            Photo? photoToUpdate = _db.Photos.Include(photo => photo.Categories).Where(photo => photo.Id == id).FirstOrDefault();
+
+            if (photoToUpdate == null)
+                return View("Error");
+
+            photoToUpdate.Title = dataReceived.Photo.Title;
+            photoToUpdate.Description = dataReceived.Photo.Description;
+            photoToUpdate.ImageFile = dataReceived.Photo.ImageFile;
+
+
+            photoToUpdate.Categories = new List<Category>();
             if (dataReceived.SelectedCategoriesId != null)
             {
                 foreach (string selectedCategory in dataReceived.SelectedCategoriesId)
@@ -229,14 +243,19 @@ namespace net_il_mio_fotoalbum.Controllers
                     int parsedCategoryId = int.Parse(selectedCategory);
                     Category? categoryInDb = _db.Categories.Where(category => category.Id == parsedCategoryId).FirstOrDefault();
                     if (categoryInDb != null)
-                        dataReceived.Photo.Categories.Add(categoryInDb);
+                        photoToUpdate.Categories.Add(categoryInDb);
                 }
             }
-            this.SetImageFileFromFormFile(dataReceived);
+            if (dataReceived.ImageFormFile != null)
+            {
+                MemoryStream stream = new MemoryStream();
+                dataReceived.ImageFormFile.CopyTo(stream);
+                photoToUpdate.ImageFile = stream.ToArray();
+            }
 
 
             //salva in db
-            _db.Photos.Add(dataReceived.Photo);
+            
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
