@@ -252,10 +252,10 @@ namespace net_il_mio_fotoalbum.Controllers
                         photoToUpdate.Categories.Add(categoryInDb);
                 }
             }
-            if (dataReceived.ImageFormFile != null)
+            if (dataReceived.ImageFile != null)
             {
                 MemoryStream stream = new MemoryStream();
-                dataReceived.ImageFormFile.CopyTo(stream);
+                dataReceived.ImageFile.CopyTo(stream);
                 photoToUpdate.ImageFile = stream.ToArray();
             }
 
@@ -319,13 +319,13 @@ namespace net_il_mio_fotoalbum.Controllers
         //Funzione che converte il file mandato dal form in byte[] e imposta l'immagine
         private void SetImageFileFromFormFile(PhotoComplex formDataReceived)
         {
-            if (formDataReceived.ImageFormFile == null)
+            if (formDataReceived.ImageFile == null)
             {
                 return;
             }
 
             MemoryStream stream = new MemoryStream();
-            formDataReceived.ImageFormFile.CopyTo(stream);
+            formDataReceived.ImageFile.CopyTo(stream);
             formDataReceived.Photo.ImageFile = stream.ToArray();
         }
     }

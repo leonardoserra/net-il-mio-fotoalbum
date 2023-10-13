@@ -8,12 +8,12 @@ namespace net_il_mio_fotoalbum.Controllers.API
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class CategoryAPIController : ControllerBase
     {
 
         private PhotoAlbumsContext _db = new PhotoAlbumsContext();
 
-        public CategoryController(PhotoAlbumsContext db)
+        public CategoryAPIController(PhotoAlbumsContext db)
         {
             this._db = db;
         }
@@ -28,6 +28,23 @@ namespace net_il_mio_fotoalbum.Controllers.API
 
             return Ok(categories);
         }
+
+        [HttpPost]
+        public IActionResult Create([FromBody]Category newCategory)
+        {
+            if (newCategory == null )
+                return BadRequest();
+
+         
+            _db.Categories.Add(newCategory);
+            int success = _db.SaveChanges();
+
+            if (success != 1)
+                return BadRequest();
+
+            return Ok();
+        }
+
 
     }
 }

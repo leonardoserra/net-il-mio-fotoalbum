@@ -11,12 +11,12 @@ namespace net_il_mio_fotoalbum.Controllers.API
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class PhotoController : ControllerBase
+    public class PhotoAPIController : ControllerBase
     {
 
         private PhotoAlbumsContext _db = new PhotoAlbumsContext();
 
-        public PhotoController(PhotoAlbumsContext db)
+        public PhotoAPIController(PhotoAlbumsContext db)
         {
             this._db = db;
         }
