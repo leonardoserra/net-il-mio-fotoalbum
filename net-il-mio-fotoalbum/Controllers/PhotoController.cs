@@ -269,14 +269,13 @@ namespace net_il_mio_fotoalbum.Controllers
 
 
         [Authorize(Roles = "ADMIN")]
-        [HttpPost]
+        [HttpPost("{id}")]
         [ValidateAntiForgeryToken]
         public IActionResult SwitchVisibility(int id)
         {
-            /*Photo? photo = new Photo();
             try
             {
-                photo = _db.Photos.Where(photo => photo.Id == id).FirstOrDefault();
+                Photo? photo = _db.Photos.Where(photo => photo.Id == id).FirstOrDefault();
                 if(photo!=null)
                 photo.Visibility = !photo.Visibility;
                 _db.SaveChanges();
@@ -286,8 +285,8 @@ namespace net_il_mio_fotoalbum.Controllers
                 Console.WriteLine(ex.Message);
                 return View("Error");
             }
-            */
-            return View("WorkInProgress");
+            
+            return View("Index");
         }
 
         [Authorize(Roles = "ADMIN")]
