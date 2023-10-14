@@ -6,8 +6,18 @@
 <div class="row">
     @if (Model != null)
     {
+        <div class="col-6">
+            <div class="input-group mb-3">
+                <img src="@Model.Photo.ImageSrc" class="form-control border-0 img-thumbnail" alt="Immagine @Model.Photo.Title">
+            </div>
+        </div>
+        <div class="col-6">
         <form asp-controller="Photo" asp-action="Edit" asp-route-id="@Model.Photo.Id" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label asp-for="Photo.ImageSrc" class="form-label">Titolo Foto</label>
+                <input type="hidden" value="Photo.ImageSrc" asp-for="Photo.ImageSrc">
+            </div>
             <div class="mb-3">
                 <label asp-for="Photo.Title" class="form-label">Titolo Foto</label>
                 <input type="text" class="form-control" asp-for="Photo.Title">
@@ -23,11 +33,12 @@
                 <input class="form-check-input" type="checkbox" asp-for="Photo.Visibility">
                 <label class="form-check-label" asp-for="Photo.Visibility">Visibilità</label>
             </div>
+           
             <div class="input-group mb-3">
-                <label class="input-group-text" asp-for="Photo.ImageFile">Carica Foto</label>
-                <input type="file" class="form-control" asp-for="Photo.ImageFile">
+                <label class="input-group-text" asp-for="ImageFile">Carica Foto</label>
+                    <input type="file" class="form-control" asp-for="ImageFile">
             </div>
-            
+
             @*SELECT MULTIPLE CATEGORIES*@
             <div class="input-group mb-3">
                 <label asp-for="SelectedCategoriesId" class="form-label">Assegna una o piú categorie (tieni premuto CTRL e selezionane piu di una alla volta) :</label>
@@ -40,7 +51,8 @@
             </div>
             <button type="submit" class="btn btn-primary">Salva Modifiche a Foto</button>
         </form>
-        
+        </div>
+
     }
     else
     {

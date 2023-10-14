@@ -42,5 +42,7 @@ namespace net_il_mio_fotoalbum.Models
 
         //constructor 
         public Photo() { }
+
+       
     }
 }

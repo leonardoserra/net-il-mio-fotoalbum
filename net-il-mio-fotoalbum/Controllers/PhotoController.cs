@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Database;
 using net_il_mio_fotoalbum.Models;
+using System;
 using System.Diagnostics;
 
 namespace net_il_mio_fotoalbum.Controllers
@@ -38,35 +39,6 @@ namespace net_il_mio_fotoalbum.Controllers
                 return View("Error");
             }
             return View("Index",photos);
-        }
-
-
-
-        //TO DO
-        [HttpPost]
-        /*[Route("/Photo/SearchPhotosByTitle/{searchString}", Name = "SearchPhotosByTitle")]*/
-        [ValidateAntiForgeryToken]
-        public IActionResult SearchPhotosByTitle(string? searchString)
-        {
-            List<Photo>? photos = new List<Photo>();
-            try
-            {
-                if (searchString == null || searchString =="")
-                {
-                    return this.Index();
-                    /*photos = _db.Photos.Include(photo => photo.Categories).ToList<Photo>();*/
-                }
-                else
-                {
-                    photos = _db.Photos.Include(photo => photo.Categories).Where(photo=>photo.Title.ToLower().Contains(searchString.ToLower())).ToList<Photo>();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return View("Error");
-            }
-            return View("Index", photos);
         }
 
 
@@ -228,7 +200,6 @@ namespace net_il_mio_fotoalbum.Controllers
                     return View("Error");
                 }
 
-
                 dataReceived.Categories = categoriesToSend;
                 
                 return View("Edit", dataReceived);
@@ -239,10 +210,16 @@ namespace net_il_mio_fotoalbum.Controllers
 
             if (photoToUpdate == null)
                 return View("Error");
-
+            
             photoToUpdate.Title = dataReceived.Photo.Title;
             photoToUpdate.Description = dataReceived.Photo.Description;
-            photoToUpdate.ImageFile = dataReceived.Photo.ImageFile;
+
+            if (dataReceived.ImageFile != null)
+            {
+                MemoryStream stream = new MemoryStream();
+                dataReceived.ImageFile.CopyTo(stream);
+                photoToUpdate.ImageFile = stream.ToArray();
+            }
 
 
             photoToUpdate.Categories = new List<Category>();
@@ -256,16 +233,14 @@ namespace net_il_mio_fotoalbum.Controllers
                         photoToUpdate.Categories.Add(categoryInDb);
                 }
             }
-            if (dataReceived.ImageFile != null)
-            {
-                MemoryStream stream = new MemoryStream();
-                dataReceived.ImageFile.CopyTo(stream);
-                photoToUpdate.ImageFile = stream.ToArray();
-            }
+           
+            
+           
+           
 
 
             //salva in db
-            
+
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
