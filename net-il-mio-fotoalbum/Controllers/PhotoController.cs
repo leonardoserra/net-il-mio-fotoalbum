@@ -128,6 +128,8 @@ namespace net_il_mio_fotoalbum.Controllers
                         dataReceived.Photo.Categories.Add(categoryInDb);
                 }
             }
+           
+            
             this.SetImageFileFromFormFile(dataReceived);
             
            

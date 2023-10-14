@@ -157,15 +157,15 @@ else
                                         <div class="card-body">
                                             <div class="card-text small">id: ${photo.id}</div>
                                             <h5 class="card-title">${photo.title}</h5>
-                                            <p class="card-text">${photo.description}</p>
-                                                    <p id="categories-p-${photo.id}" class="card-text" > Categorie:
+                                            <p class="card-text">Descrizione:<br/>${photo.description}</p>
+                                                    <p id="categories-p-${photo.id}" class="card-text" >
                             `
                             if(photo.categories.length > 0)
                             {
 
                                 document.getElementById("categories-p-" + photo.id).innerHTML +=
                                 `
-                                                        <ul id="categories-ul-${photo.id}" class="list-unstyled" >
+                                                                <ul id="categories-ul-${photo.id}" class="list-unstyled" >Categorie:
                                 `;
                                 photo.categories.forEach(category => {
                                     document.getElementById("categories-ul-" + photo.id).innerHTML +=
@@ -183,7 +183,13 @@ else
 
                                 `;
                             } else {
-                                document.getElementById("categories-p-" + photo.id).innerHTML += `<div class="card-text">nessuna categoria assegnata</div>`;
+                                document.getElementById("categories-p-" + photo.id).innerHTML = 
+                                `
+                                    <div class="card-text">
+                                        Categorie:<br/>
+                                        -Nessuna categoria 
+                                    </div>
+                                `;
                             }
                             document.getElementById("card-n-" + photo.id).innerHTML +=
                             `
