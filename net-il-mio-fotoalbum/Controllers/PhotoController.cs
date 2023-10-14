@@ -233,12 +233,6 @@ namespace net_il_mio_fotoalbum.Controllers
                         photoToUpdate.Categories.Add(categoryInDb);
                 }
             }
-           
-            
-           
-           
-
-
             //salva in db
 
             _db.SaveChanges();
@@ -274,12 +268,12 @@ namespace net_il_mio_fotoalbum.Controllers
             return RedirectToAction("Index");
         }
 
+
         [Authorize(Roles = "ADMIN")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            Photo? photoToDelete = _db.Photos.Where(pizza => pizza.Id == id).FirstOrDefault();
+            Photo? photoToDelete = _db.Photos.Where(photo => photo.Id == id).FirstOrDefault();
             if (photoToDelete == null)
                 return View("Error");
 

@@ -57,31 +57,5 @@ namespace net_il_mio_fotoalbum.Controllers.API
 
             return Ok(photos);
         }
-        [Authorize(Roles = "ADMIN")]
-        [HttpPut("{id}")]
-        [ValidateAntiForgeryToken]
-        public IActionResult SwitchVisibility(int id)
-        {
-            try
-            {
-                Photo? photo = _db.Photos.Where(photo => photo.Id == id).FirstOrDefault();
-                if (photo != null)
-                {
-                    if (photo.Visibility)
-                        photo.Visibility = false;
-                    else
-                        photo.Visibility = true;
-                }
-                    
-                _db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return Redirect("/Error");
-            }
-
-            return Redirect("/Photo/Index");
-        }
     }
 }
