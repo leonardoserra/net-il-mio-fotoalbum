@@ -10,7 +10,13 @@ namespace net_il_mio_fotoalbum.Models
     {
         [Key]
         public int Id { get; set; }
+        [Column("email")]
+        [Required(ErrorMessage = "Inserire un email valida")]
+        [EmailAddress]
+        [StringLength(100, ErrorMessage = "Massimo 100 caratteri email")]
 
+
+        public string? Email { get; set; }
 
         [Column("text")]
         [Required(ErrorMessage = "Inserire il testo del messaggio")]

@@ -1,7 +1,9 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@{
     ViewData["Title"] = "Gestione Album Fotografico";
 }
 @model List<Photo>
+@inject UserManager<IdentityUser> UserManager
 
 @* Create *@
 @if (User.IsInRole("ADMIN"))
@@ -28,8 +30,35 @@
 }
 else
 {
+    @* OFFCANVAS *@
+    <button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas">
+        Invia Messaggio
+    </button>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasLabel">Scrivici:</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div id="offcanvas-body-message" class="offcanvas-body">
+            <div class="mb-3">
+                @* <div class="mb-3">
+                    <label for="message-email" class="form-label">Email</label> *@
+                    <input type="hidden" class="form-control" id="message-email" value="@UserManager.GetUserName(User)">
+                @* </div> *@
+                <div class="mb-3">
+                    <label for="message-text" class="form-label">Testo del Messaggio</label>
+                    <input type="text" class="form-control" id="message-text">
+                </div>
+                <button id="message-submit-button" type="submit" class="btn btn-success">INVIA</button>
+            </div>
+
+        </div>
+    </div>
+
     <input id="manage-buttons" type="hidden" value="false">
 }
+
 
 @* BARRA RICERCA *@
 <div class="row mt-3 mb-1">
@@ -67,15 +96,43 @@ else
         const searchBar = document.getElementById("search-bar");
         const searchButton = document.getElementById("search-button");
         
-
         let searchValue = "";
 
         SearchPhotoByTitle(searchValue);
+
         const manageButtons = document.getElementById("manage-buttons").value;
         searchBar.addEventListener('keyup', () => {
             searchValue = searchBar.value;
             this.SearchPhotoByTitle(searchValue);
         });
+
+
+        const messageSubmitButton = document.getElementById("message-submit-button");
+        messageSubmitButton.addEventListener('click', function (event) {
+            sendMessage();
+        })
+
+
+        function sendMessage() {
+            const messageEmail = document.getElementById("message-email").value;
+            const messageText = document.getElementById("message-text").value;
+            let newMessage = {
+                email: messageEmail,
+                text: messageText
+            }
+            axios.post("api/MessageAPI/SendMessage", newMessage).then(() => {
+                document.getElementById("offcanvas-body-message").innerHTML += "Messaggio Inviato!";
+                setTimeout(() => {
+                    window.location.replace("/Photo/Index");
+                },3000)
+            });
+            
+            //document.getElementById("offcanvas-body-message").innerHTML += "Messaggio Inviato!";
+            //setTimeout(() => {
+            //    window.location.replace("/Photo/Index");
+            // }, 5000)
+
+        }
 
         function SearchPhotoByTitle(photoTitle) {
             axios.get("/api/PhotoAPI/SearchPhotoByTitle",
