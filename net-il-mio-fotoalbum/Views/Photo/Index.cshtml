@@ -106,12 +106,10 @@ else
             this.SearchPhotoByTitle(searchValue);
         });
 
-
         const messageSubmitButton = document.getElementById("message-submit-button");
         messageSubmitButton.addEventListener('click', function (event) {
             sendMessage();
         })
-
 
         function sendMessage() {
             const messageEmail = document.getElementById("message-email").value;
@@ -126,12 +124,6 @@ else
                     window.location.replace("/Photo/Index");
                 },3000)
             });
-            
-            //document.getElementById("offcanvas-body-message").innerHTML += "Messaggio Inviato!";
-            //setTimeout(() => {
-            //    window.location.replace("/Photo/Index");
-            // }, 5000)
-
         }
 
         function SearchPhotoByTitle(photoTitle) {
